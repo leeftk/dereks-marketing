@@ -28,3 +28,15 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+const goalChips = document.querySelectorAll('.goal-chip');
+const planResult = document.querySelector('.plan-result');
+
+goalChips.forEach(chip => chip.addEventListener('click', () => {
+  goalChips.forEach(item => item.setAttribute('aria-pressed', String(item === chip)));
+  if (!planResult) return;
+  planResult.classList.remove('updated');
+  planResult.querySelector('h3').textContent = `${chip.dataset.plan} is your best fit`;
+  planResult.querySelector('p').textContent = chip.dataset.copy;
+  requestAnimationFrame(() => planResult.classList.add('updated'));
+}));
